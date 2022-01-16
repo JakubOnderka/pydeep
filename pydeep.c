@@ -4,7 +4,7 @@
 #include <unistd.h>
 #include <bytesobject.h>
 
-#define PYDEEP_VERSION  "0.4"
+#define PYDEEP_VERSION  "0.5"
 
 static PyObject *pydeepError;
 
