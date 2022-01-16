@@ -32,6 +32,9 @@ class TestCommand(Command):
             os.chdir("..")
 
 
+with open("README.md", "r", encoding="utf-8") as fh:
+    long_description = fh.read()
+
 setup(
     name="pydeep2",
     author="Kiran Bandla",
@@ -39,7 +42,8 @@ setup(
     license="BSD",
     version=get_version(),
     description="Python bindings for ssdeep",
-    long_description="Python/C Wrapper for the ssdeep library",
+    long_description=long_description,
+    long_description_content_type="text/markdown",
     url="https://www.github.com/kbandla/pydeep",
     ext_modules=[Extension(
         "pydeep",
