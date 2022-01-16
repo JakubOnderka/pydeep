@@ -95,7 +95,7 @@ static PyObject * pydeep_compare(PyObject *self, PyObject *args) {
         PyErr_SetString(pydeepError, "Error in fuzzy compare");
         return NULL;
     }
-    return Py_BuildValue("i", ret);
+    return PyLong_FromLong(ret);
 }
 
 // Method definitions
