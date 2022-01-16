@@ -33,7 +33,7 @@ class TestCommand(Command):
 
 
 setup(
-    name="pydeep",
+    name="pydeep2",
     author="Kiran Bandla",
     author_email="kbandla@in2void.com",
     license="BSD",
