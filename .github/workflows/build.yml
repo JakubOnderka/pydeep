@@ -40,10 +40,24 @@ jobs:
         name: Show wheels
         run: |
           sudo mv /tmp/dist_x86_64/* dist/
-          ls -la dist/
       -
         name: Store wheels in artifact
         uses: actions/upload-artifact@v2
         with:
           name: wheels
           path: dist/*manylinux*.whl
+      -
+        name: Set up Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.8
+      -
+        name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install twine build
+      -
+        name: Generate source package
+        run: |
+          python -m build -s
+          ls dist/
