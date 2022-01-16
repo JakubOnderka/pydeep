@@ -1,0 +1,49 @@
+name: Build wheels
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      -
+        name: Checkout
+        uses: actions/checkout@v2
+      -
+        name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+      -
+        name: Build wheels for x86_64
+        uses: RalfG/python-wheels-manylinux-build@v0.4.2-manylinux2014_x86_64
+        with:
+          python-versions: 'cp36-cp36m cp37-cp37m cp38-cp38 cp39-cp39 cp310-cp310'
+          system-packages: 'ssdeep-devel'
+      -
+        name: Move build wheels to /tmp # this will avoid aarch64 build problems
+        run: |
+          mkdir /tmp/dist_x86_64
+          sudo mv dist/* /tmp/dist_x86_64/
+      -
+        name: Build wheels for aarch64
+        uses: RalfG/python-wheels-manylinux-build@v0.4.2-manylinux2014_aarch64
+        with:
+          python-versions: 'cp36-cp36m cp37-cp37m cp38-cp38 cp39-cp39 cp310-cp310'
+          pre-build-command: 'sh .github/workflows/pre-build-command.sh'
+        env:
+          DOCKER_DEFAULT_PLATFORM: linux/arm64
+      -
+        name: Show wheels
+        run: |
+          sudo mv /tmp/dist_x86_64/* dist/
+          ls -la dist/
+      -
+        name: Store wheels in artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: wheels
+          path: dist/*manylinux*.whl
