@@ -37,9 +37,10 @@ jobs:
         env:
           DOCKER_DEFAULT_PLATFORM: linux/arm64
       -
-        name: Show wheels
+        name: Fix perms
         run: |
           sudo mv /tmp/dist_x86_64/* dist/
+          sudo chown `whoami` -R .
       -
         name: Store wheels in artifact
         uses: actions/upload-artifact@v2
