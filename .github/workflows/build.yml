@@ -101,9 +101,10 @@ jobs:
           python -m build -s
           ls dist/
       -
-        name: Publish wheels to TEST PyPI
+        name: Publish wheels to PyPI
+        if: github.event_name != 'pull_request'
         env:
-          TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
-          TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
+          TWINE_USERNAME: '__token__'
+          TWINE_PASSWORD: ${{ secrets.PYPI_TOKEN }}
         run: |
-          twine upload --skip-existing -r testpypi dist/*-manylinux*.whl dist/*.tar.gz
+          twine upload --skip-existing dist/*-manylinux*.whl dist/*.tar.gz
