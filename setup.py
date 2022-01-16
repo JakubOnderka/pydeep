@@ -43,7 +43,7 @@ setup(
     description="Python bindings for ssdeep",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://www.github.com/kbandla/pydeep",
+    url="https://www.github.com/JakubOnderka/pydeep",
     ext_modules=[Extension(
         "pydeep",
         sources=["pydeep.c"],
