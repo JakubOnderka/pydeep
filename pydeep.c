@@ -11,7 +11,7 @@ static PyObject *pydeepError;
 static PyObject * pydeep_hash_file(PyObject *self, PyObject *args) {
     FILE *inputFile;
     PyObject *ssdeepHash = NULL;
-    char *hashResult = NULL;
+    char hashResult[FUZZY_MAX_RESULT];
     char *filename;
     int ret;
     if (!PyArg_ParseTuple(args, "s", &filename)) {
@@ -31,21 +31,13 @@ static PyObject * pydeep_hash_file(PyObject *self, PyObject *args) {
         return NULL;
     }
 
-    // Allocate return buffers for hash
-    hashResult = (char *)malloc(FUZZY_MAX_RESULT);
-    if (hashResult == NULL) {
-        PyErr_SetString(pydeepError, "Error allocating malloc buffer");
-        return NULL;
-    }
-    ret = fuzzy_hash_file(inputFile, hashResult);
+    ret = fuzzy_hash_file(inputFile, (char*)&hashResult);
     if (ret != 0) {
-        free(hashResult);
         fclose(inputFile);
         PyErr_SetString(pydeepError, "Error in fuzzy_hash!");
         return NULL;
     }
     ssdeepHash = PyBytes_FromString(hashResult);
-    free(hashResult);
     fclose(inputFile);
     return ssdeepHash;
 }
@@ -54,28 +46,19 @@ static PyObject * pydeep_hash_buf(PyObject *self, PyObject *args) {
     PyObject *ssdeepHash = NULL;
     Py_ssize_t stringSize = 0;
     char *inputBuffer = NULL;
-    char *hashResult;
+    char hashResult[FUZZY_MAX_RESULT];
     int ret;
 
     if (!PyArg_ParseTuple(args, "s#", &inputBuffer, &stringSize)) {
         return NULL;
     }
 
-    // Allocate return buffers for hash
-    hashResult = (char *)malloc(FUZZY_MAX_RESULT);
-    if (hashResult == NULL) {
-        PyErr_SetString(pydeepError, "Error allocating malloc buffer");
-        return NULL;
-    }
-
-    ret = fuzzy_hash_buf((unsigned char*)inputBuffer, (uint32_t)stringSize, hashResult);
+    ret = fuzzy_hash_buf((unsigned char*)inputBuffer, (uint32_t)stringSize, (char*)&hashResult);
     if (ret != 0) {
-        free(hashResult);
         PyErr_SetString(pydeepError, "Error in fuzzy_hash!");
         return NULL;
     }
     ssdeepHash = PyBytes_FromString(hashResult);
-    free(hashResult);
     return ssdeepHash;
 }
 
