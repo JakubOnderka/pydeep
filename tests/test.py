@@ -44,6 +44,12 @@ def test_pydeep_compare():
     except Exception as e:
         assert isinstance(e, ValueError)
 
+    try:
+        pydeep.compare("1", "2")
+        assert False
+    except Exception as e:
+        assert isinstance(e, pydeep.Error)
+
 
 if __name__ == "__main__":
     print('Using %s, version %s' % (pydeep.__file__, pydeep.__version__))

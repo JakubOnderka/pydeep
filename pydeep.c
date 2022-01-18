@@ -110,12 +110,12 @@ static struct PyModuleDef moduledef = {
 PyObject *PyInit_pydeep(void) {
     PyObject *pydeep;
     pydeep = PyModule_Create(&moduledef);
-    if (pydeep == NULL)
+    if (pydeep == NULL) {
         return NULL;
-
+    }
     pydeepError = PyErr_NewException("pydeep.Error", NULL, NULL);
     Py_INCREF(pydeepError);
-    PyModule_AddObject(pydeep, "error", pydeepError);
+    PyModule_AddObject(pydeep, "Error", pydeepError);
     PyModule_AddStringConstant(pydeep, "__version__", PYDEEP_VERSION);
     return pydeep;
 }
