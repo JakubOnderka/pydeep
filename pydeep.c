@@ -65,14 +65,19 @@ static PyObject * pydeep_hash_buf(PyObject *self, PyObject *args) {
 static PyObject * pydeep_compare(PyObject *self, PyObject *args) {
     char *ssdeepHash1 = NULL;
     char *ssdeepHash2 = NULL;
+    Py_ssize_t ssdeepHash1Size = 0;
+    Py_ssize_t ssdeepHash2Size = 0;
     int ret;
-#if PY_MAJOR_VERSION >= 3
-    if (!PyArg_ParseTuple(args, "yy", &ssdeepHash1, &ssdeepHash2)) {
-#else
-    if (!PyArg_ParseTuple(args, "ss", &ssdeepHash1, &ssdeepHash2)) {
-#endif
+
+    if (!PyArg_ParseTuple(args, "s#s#", &ssdeepHash1, &ssdeepHash1Size, &ssdeepHash2, &ssdeepHash2Size)) {
         return NULL;
     }
+
+    if (strlen(ssdeepHash1) != (size_t)ssdeepHash1Size || strlen(ssdeepHash2) != (size_t)ssdeepHash2Size) {
+        PyErr_SetString(PyExc_ValueError, "embedded null byte");
+        return NULL;
+    }
+
     ret = fuzzy_compare(ssdeepHash1, ssdeepHash2);
     if (ret < 0) {
         PyErr_SetString(pydeepError, "Error in fuzzy compare");
@@ -90,7 +95,6 @@ static PyMethodDef pydeepMethods[] = {
     {NULL, NULL}
 };
 
-#if PY_MAJOR_VERSION >=3
 static struct PyModuleDef moduledef = {
     PyModuleDef_HEAD_INIT,
     "pydeep",       // m_name
@@ -102,29 +106,16 @@ static struct PyModuleDef moduledef = {
     NULL,           // m_clear
     NULL            // m_free
 };
-#endif
 
-#if PY_MAJOR_VERSION >= 3
-PyObject *PyInit_pydeep(void)
-#else
-void initpydeep(void)
-#endif
-{
+PyObject *PyInit_pydeep(void) {
     PyObject *pydeep;
-#if PY_MAJOR_VERSION >= 3
-    // Python 3
     pydeep = PyModule_Create(&moduledef);
     if (pydeep == NULL)
         return NULL;
-#else
-    // Python 2
-    pydeep = Py_InitModule3("pydeep", pydeepMethods, "C/Python bindings for ssdeep [ssdeep.sourceforge.net]");
-#endif
+
     pydeepError = PyErr_NewException("pydeep.Error", NULL, NULL);
     Py_INCREF(pydeepError);
     PyModule_AddObject(pydeep, "error", pydeepError);
     PyModule_AddStringConstant(pydeep, "__version__", PYDEEP_VERSION);
-#if PY_MAJOR_VERSION >= 3
     return pydeep;
-#endif
 }
