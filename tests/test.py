@@ -38,6 +38,12 @@ def test_pydeep_compare():
     assert pydeep.compare("96:CFzROqsgconvv7uUo6jTcEGEvpVCN116S:CNVnqj8cMVCv16", "96:aN0jOc0WlWW+LWQnjv7ufGcE5ESr5YaZ6uicEDEO9VCN116Sb5EutkB:aSeoF+L/zqfGtfr5YiWcsVCv16W5htk") == 40
     assert pydeep.compare("96:CFzROqsgconvv7uUo6jTcEGEvpVCN116S:CNVnqj8cMVCv16", b"96:aN0jOc0WlWW+LWQnjv7ufGcE5ESr5YaZ6uicEDEO9VCN116Sb5EutkB:aSeoF+L/zqfGtfr5YiWcsVCv16W5htk") == 40
 
+    try:
+        pydeep.compare(b"96:CFzROqsgconvv7uUo6jTcEGEvpVCN116S:CNVnqj8cMVCv16\x00", b"96:CFzROqsgconvv7uUo6jTcEGEvpVCN116S:CNVnqj8cMVCv16\x00")
+        assert False
+    except Exception as e:
+        assert isinstance(e, ValueError)
+
 
 if __name__ == "__main__":
     print('Using %s, version %s' % (pydeep.__file__, pydeep.__version__))
