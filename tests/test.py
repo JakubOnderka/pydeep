@@ -31,8 +31,12 @@ def test_pydeep_compare():
     assert pydeep.compare(hash1, hash2) == 0, "Error fuzzy compare value"
     # Same hash
     assert pydeep.compare(b"96:CFzROqsgconvv7uUo6jTcEGEvpVCN116S:CNVnqj8cMVCv16", b"96:CFzROqsgconvv7uUo6jTcEGEvpVCN116S:CNVnqj8cMVCv16") == 100
+    assert pydeep.compare("96:CFzROqsgconvv7uUo6jTcEGEvpVCN116S:CNVnqj8cMVCv16", "96:CFzROqsgconvv7uUo6jTcEGEvpVCN116S:CNVnqj8cMVCv16") == 100
+    assert pydeep.compare("96:CFzROqsgconvv7uUo6jTcEGEvpVCN116S:CNVnqj8cMVCv16", b"96:CFzROqsgconvv7uUo6jTcEGEvpVCN116S:CNVnqj8cMVCv16") == 100
     # Similar hash
     assert pydeep.compare(b"96:CFzROqsgconvv7uUo6jTcEGEvpVCN116S:CNVnqj8cMVCv16", b"96:aN0jOc0WlWW+LWQnjv7ufGcE5ESr5YaZ6uicEDEO9VCN116Sb5EutkB:aSeoF+L/zqfGtfr5YiWcsVCv16W5htk") == 40
+    assert pydeep.compare("96:CFzROqsgconvv7uUo6jTcEGEvpVCN116S:CNVnqj8cMVCv16", "96:aN0jOc0WlWW+LWQnjv7ufGcE5ESr5YaZ6uicEDEO9VCN116Sb5EutkB:aSeoF+L/zqfGtfr5YiWcsVCv16W5htk") == 40
+    assert pydeep.compare("96:CFzROqsgconvv7uUo6jTcEGEvpVCN116S:CNVnqj8cMVCv16", b"96:aN0jOc0WlWW+LWQnjv7ufGcE5ESr5YaZ6uicEDEO9VCN116Sb5EutkB:aSeoF+L/zqfGtfr5YiWcsVCv16W5htk") == 40
 
 
 if __name__ == "__main__":
