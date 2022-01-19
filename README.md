@@ -6,6 +6,8 @@ Python/C bindings for the [ssdeep](https://ssdeep-project.github.io/ssdeep/index
 
 * Fixed `DeprecationWarning: PY_SSIZE_T_CLEAN will be required for '#' formats`
 * Published wheels at PyPI for x86_64 and aarch64
+* `pydeep.compare` accepts also string
+* Small optimisations
 
 ### Installation 
 
@@ -41,4 +43,4 @@ pydeep.compare(hash1, hash2)
 ## Copyright
 
 * 2011-2012 Kiran Bandla <kbandla@in2void.com>
-* 2021 Jakub Onderka
+* 2022 Jakub Onderka
