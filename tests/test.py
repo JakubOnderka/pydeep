@@ -4,7 +4,11 @@ import sys
 import glob
 
 if os.path.exists("../build"):
-    sys.path.insert(0, glob.glob('../build/lib.*-' + str(sys.version_info[0]) + '.*')[0])
+    if sys.version_info.minor >= 10:
+        version_string = "3{}".format(sys.version_info.minor)
+    else:
+        version_string = "3.{}".format(sys.version_info.minor)
+    sys.path.insert(0, glob.glob('../build/lib.*-' + version_string)[0])
 import pydeep
 
 testL = [
