@@ -22,10 +22,10 @@ jobs:
     steps:
       -
         name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       -
         name: Set up Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
       -
@@ -52,13 +52,13 @@ jobs:
     steps:
       -
         name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       -
         name: Set up QEMU
-        uses: docker/setup-qemu-action@v1
+        uses: docker/setup-qemu-action@v2
       -
         name: Build wheels for x86_64
-        uses: RalfG/python-wheels-manylinux-build@v0.4.2-manylinux2014_x86_64
+        uses: RalfG/python-wheels-manylinux-build@v0.6.0-manylinux2014_x86_64
         with:
           python-versions: 'cp36-cp36m cp37-cp37m cp38-cp38 cp39-cp39 cp310-cp310 cp311-cp311'
           system-packages: 'ssdeep-devel'
@@ -69,7 +69,7 @@ jobs:
           sudo mv dist/* /tmp/dist_x86_64/
       -
         name: Build wheels for aarch64
-        uses: RalfG/python-wheels-manylinux-build@v0.4.2-manylinux2014_aarch64
+        uses: RalfG/python-wheels-manylinux-build@v0.6.0-manylinux2014_aarch64
         with:
           python-versions: 'cp36-cp36m cp37-cp37m cp38-cp38 cp39-cp39 cp310-cp310 cp311-cp311'
           pre-build-command: 'sh .github/workflows/pre-build-command.sh'
@@ -82,13 +82,13 @@ jobs:
           sudo chown `whoami` -R .
       -
         name: Store wheels in artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: wheels
           path: dist/*manylinux*.whl
       -
         name: Set up Python
-        uses: actions/setup-python@v1
+        uses: actions/setup-python@v4
         with:
           python-version: 3.8
       -
