@@ -84,13 +84,13 @@ jobs:
           sudo chown `whoami` -R .
       -
         name: Store wheels in artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v7
         with:
           name: wheels
           path: dist/*manylinux*.whl
       -
         name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v6
         with:
           python-version: 3.8
       -
