@@ -12,8 +12,6 @@ jobs:
     strategy:
       matrix:
         python-version:
-          - 3.6
-          - 3.7
           - 3.8
           - 3.9
           - '3.10'
@@ -64,7 +62,7 @@ jobs:
         name: Build wheels for x86_64
         uses: RalfG/python-wheels-manylinux-build@v0.6.0-manylinux2014_x86_64
         with:
-          python-versions: 'cp36-cp36m cp37-cp37m cp38-cp38 cp39-cp39 cp310-cp310 cp311-cp311 cp312-cp312 cp313-cp313 cp314-cp314'
+          python-versions: 'cp38-cp38 cp39-cp39 cp310-cp310 cp311-cp311 cp312-cp312 cp313-cp313 cp314-cp314'
           system-packages: 'ssdeep-devel'
       -
         name: Move build wheels to /tmp # this will avoid aarch64 build problems
@@ -75,7 +73,7 @@ jobs:
         name: Build wheels for aarch64
         uses: RalfG/python-wheels-manylinux-build@v0.6.0-manylinux2014_aarch64
         with:
-          python-versions: 'cp36-cp36m cp37-cp37m cp38-cp38 cp39-cp39 cp310-cp310 cp311-cp311 cp312-cp312 cp313-cp313 cp314-cp314'
+          python-versions: 'cp38-cp38 cp39-cp39 cp310-cp310 cp311-cp311 cp312-cp312 cp313-cp313 cp314-cp314'
           pre-build-command: 'sh .github/workflows/pre-build-command.sh'
         env:
           DOCKER_DEFAULT_PLATFORM: linux/arm64
