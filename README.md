@@ -11,7 +11,7 @@ Python/C bindings for the [ssdeep](https://ssdeep-project.github.io/ssdeep/index
 
 ### Installation 
 
-Requires Python 3.6 or later. For older Python version, you can use [original pydeep](https://github.com/kbandla/pydeep).
+Requires Python 3.8 or later. For older Python version, you can use [original pydeep](https://github.com/kbandla/pydeep).
 
 From PyPI:
 
